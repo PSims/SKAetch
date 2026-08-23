@@ -1,0 +1,16 @@
+[project]
+name = "skaetch"
+version = "0.1.0"
+description = "Interactive SKA radio interferometry outreach simulator"
+authors = [
+    { name = "PSims", email = "6097708+PSims@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+skaetch = "skaetch:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
