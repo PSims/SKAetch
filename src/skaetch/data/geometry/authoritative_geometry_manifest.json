@@ -1,0 +1,47 @@
+{
+  "source": {
+    "package": "ska-ost-array-config",
+    "package_version": "4.5.0",
+    "coordinate_source": "LowSubArray.array_config.xyz",
+    "station_name_source": "LowSubArray.array_config.names",
+    "coordinate_frame": "local ENU",
+    "csv_columns": [
+      "index",
+      "station_name",
+      "east_m",
+      "north_m"
+    ]
+  },
+  "stages": {
+    "AA0.5": {
+      "file": "AA0p5_east_north_m.csv",
+      "station_count": 4,
+      "maximum_baseline_m": 5591.760871614,
+      "file_sha256": "bfd26b2cec5062393e0477bd35ad2069e9ff4b15f8252237409b3d95f600b02c"
+    },
+    "AA1": {
+      "file": "AA1_east_north_m.csv",
+      "station_count": 16,
+      "maximum_baseline_m": 5802.487387818,
+      "file_sha256": "e24bfd75021f2fedc19c112b527d8b7cd93173635c930eccc4f7de07d7888e79"
+    },
+    "AA2": {
+      "file": "AA2_east_north_m.csv",
+      "station_count": 68,
+      "maximum_baseline_m": 64805.302212565,
+      "file_sha256": "5715fe902b595c0269f6dc85a2795381897c90219b182a3ce59852ffffa1a88b"
+    },
+    "AA*": {
+      "file": "AAstar_east_north_m.csv",
+      "station_count": 307,
+      "maximum_baseline_m": 73393.215441016,
+      "file_sha256": "528e9bd3cee506941fca6e12f56dfff9eef3fad51aacd74bf7fe18c5563a51ef"
+    },
+    "AA4": {
+      "file": "AA4_east_north_m.csv",
+      "station_count": 512,
+      "maximum_baseline_m": 73441.636461768,
+      "file_sha256": "297c402b0f97dcc1c345500895a7143ba191315301629fb55836c9287c2af278"
+    }
+  }
+}

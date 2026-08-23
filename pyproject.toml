@@ -11,6 +11,20 @@ dependencies = []
 [project.scripts]
 skaetch = "skaetch:main"
 
+[dependency-groups]
+geometry = [
+    "matplotlib",
+    "numpy",
+    "ska-ost-array-config==4.5.0",
+]
+
+[tool.uv.sources]
+ska-ost-array-config = { index = "skao" }
+
+[[tool.uv.index]]
+name = "skao"
+url = "https://artefact.skao.int/repository/pypi-internal/simple"
+
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]
 build-backend = "uv_build"
