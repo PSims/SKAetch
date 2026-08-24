@@ -18,8 +18,9 @@ from skaetch.uvw import (
     C_M_S,
     SKA_LOW_LATITUDE_DEG,
     enu_baseline_to_uvw_lambda,
-    enu_to_equatorial_xyz,
-    equatorial_xyz_to_uvw,
+    enu_to_equatorial_xyz_m,
+    equatorial_xyz_to_uvw_m,
+    xyz_to_uvw_rotation,
 )
 
 FREQUENCY_HZ = 150e6
@@ -117,6 +118,26 @@ def validate_reference_matrix() -> float:
     return error
 
 
+def validate_rotation_matrix() -> tuple[float, float]:
+    """Check that the explicit XYZ -> UVW matrix is a proper rotation."""
+    hour_angle_rad = np.deg2rad(np.linspace(-90.0, 90.0, 19))
+    declination_rad = np.deg2rad(np.linspace(-70.0, 40.0, 19))
+    rotation = xyz_to_uvw_rotation(hour_angle_rad, declination_rad)
+    identity = np.einsum("...ik,...jk->...ij", rotation, rotation)
+    orthogonality_error = float(
+        np.max(np.abs(identity - np.eye(3, dtype=float)))
+    )
+    determinant_error = float(np.max(np.abs(np.linalg.det(rotation) - 1.0)))
+    if max(orthogonality_error, determinant_error) >= NORM_TOLERANCE_RELATIVE:
+        raise AssertionError(
+            "rotation-matrix error exceeds "
+            f"{NORM_TOLERANCE_RELATIVE:.1e}: "
+            f"orthogonality={orthogonality_error:.3e}, "
+            f"determinant={determinant_error:.3e}"
+        )
+    return orthogonality_error, determinant_error
+
+
 def validate_norm_invariance() -> tuple[float, float]:
     rng = np.random.default_rng(20260818)
     east_m = rng.normal(0.0, 20_000.0, 2048)
@@ -126,23 +147,23 @@ def validate_norm_invariance() -> tuple[float, float]:
     hour_angle_rad = math.radians(float(rng.uniform(-75.0, 75.0)))
     declination_rad = math.radians(float(rng.uniform(-70.0, 40.0)))
 
-    x_m, y_m, z_m = enu_to_equatorial_xyz(
+    b_x_m, b_y_m, b_z_m = enu_to_equatorial_xyz_m(
         east_m,
         north_m,
         up_m,
         latitude_rad=latitude_rad,
     )
-    u_m, v_m, w_m = equatorial_xyz_to_uvw(
-        x_m,
-        y_m,
-        z_m,
+    b_u_m, b_v_m, b_w_m = equatorial_xyz_to_uvw_m(
+        b_x_m,
+        b_y_m,
+        b_z_m,
         hour_angle_rad,
         declination_rad,
     )
 
     norm_enu = np.sqrt(east_m**2 + north_m**2 + up_m**2)
-    norm_xyz = np.sqrt(x_m**2 + y_m**2 + z_m**2)
-    norm_uvw = np.sqrt(u_m**2 + v_m**2 + w_m**2)
+    norm_xyz = np.sqrt(b_x_m**2 + b_y_m**2 + b_z_m**2)
+    norm_uvw = np.sqrt(b_u_m**2 + b_v_m**2 + b_w_m**2)
     denominator = np.maximum(norm_enu, np.finfo(float).tiny)
     xyz_error = float(np.max(np.abs(norm_xyz - norm_enu) / denominator))
     uvw_error = float(np.max(np.abs(norm_uvw - norm_enu) / denominator))
@@ -195,18 +216,18 @@ def validate_orientation() -> dict[str, float]:
     after_w_m = float(after[2] * wavelength_m)
 
     checks = {
-        "transit_u_m": transit_u_m,
-        "transit_v_m": transit_v_m,
-        "transit_w_m": transit_w_m,
-        "minus_6h_w_m": before_w_m,
-        "plus_6h_w_m": after_w_m,
+        "transit_b_u_m": transit_u_m,
+        "transit_b_v_m": transit_v_m,
+        "transit_b_w_m": transit_w_m,
+        "minus_6h_b_w_m": before_w_m,
+        "plus_6h_b_w_m": after_w_m,
     }
     expected = {
-        "transit_u_m": 1.0,
-        "transit_v_m": 0.0,
-        "transit_w_m": 0.0,
-        "minus_6h_w_m": 1.0,
-        "plus_6h_w_m": -1.0,
+        "transit_b_u_m": 1.0,
+        "transit_b_v_m": 0.0,
+        "transit_b_w_m": 0.0,
+        "minus_6h_b_w_m": 1.0,
+        "plus_6h_b_w_m": -1.0,
     }
     for name, value in checks.items():
         if abs(value - expected[name]) >= ORIENTATION_TOLERANCE_M:
@@ -328,6 +349,7 @@ def main() -> None:
     args = parser.parse_args()
 
     matrix_error = validate_reference_matrix()
+    rotation_orthogonality_error, rotation_determinant_error = validate_rotation_matrix()
     xyz_norm_error, uvw_norm_error = validate_norm_invariance()
     orientation = validate_orientation()
 
@@ -339,13 +361,18 @@ def main() -> None:
     stage_rows = validate_stages(plot_dir)
 
     print(f"PASS independent matrix: {matrix_error:.3e} wavelengths")
+    print(
+        "PASS explicit rotation:   "
+        f"orthogonality {rotation_orthogonality_error:.3e}, "
+        f"|det(R)-1| {rotation_determinant_error:.3e}"
+    )
     print(f"PASS ENU -> XYZ norm:    {xyz_norm_error:.3e} relative")
     print(f"PASS XYZ -> UVW norm:    {uvw_norm_error:.3e} relative")
     print(
         "PASS hour-angle orientation: "
-        f"transit u={orientation['transit_u_m']:+.1f} m, "
-        f"H=-6h w={orientation['minus_6h_w_m']:+.1f} m, "
-        f"H=+6h w={orientation['plus_6h_w_m']:+.1f} m"
+        f"transit B_U={orientation['transit_b_u_m']:+.1f} m, "
+        f"H=-6h B_W={orientation['minus_6h_b_w_m']:+.1f} m, "
+        f"H=+6h B_W={orientation['plus_6h_b_w_m']:+.1f} m"
     )
     for row in stage_rows:
         print(
