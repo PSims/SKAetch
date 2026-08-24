@@ -10,7 +10,7 @@ SKAetch includes frozen local station coordinates for five staged SKA-Low array 
 | AA* | 307 | 73.393 km |
 | AA4 | 512 | 73.442 km |
 
-The CSV files under `src/skaetch/data/geometry/` contain the package-provided station name and local East/North offsets in metres, together with an explicit zero-based row index. The index records the frozen station order; the station name preserves traceability to the staged SKAO configuration. These are station-layout coordinates, not Fourier-plane coordinates. Conversion from station baselines to interferometric UVW coordinates is handled separately.
+The CSV files under `src/skaetch/data/geometry/` contain the package-provided station name and local East/North offsets in metres, together with an explicit zero-based row index. The index records the frozen station order; the station name preserves traceability to the staged SKAO configuration. These are station-layout coordinates, not Fourier-plane coordinates. Conversion from station baselines to interferometric UVW coordinates is documented in [`uvw_geometry.md`](uvw_geometry.md).
 
 ## Source
 

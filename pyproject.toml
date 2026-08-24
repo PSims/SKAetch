@@ -6,7 +6,9 @@ authors = [
     { name = "PSims", email = "6097708+PSims@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "numpy",
+]
 
 [project.scripts]
 skaetch = "skaetch:main"
@@ -14,7 +16,6 @@ skaetch = "skaetch:main"
 [dependency-groups]
 geometry = [
     "matplotlib",
-    "numpy",
     "ska-ost-array-config==4.5.0",
 ]
 

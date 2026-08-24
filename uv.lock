@@ -1507,20 +1507,22 @@ wheels = [
 name = "skaetch"
 version = "0.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "numpy" },
+]
 
 [package.dev-dependencies]
 geometry = [
     { name = "matplotlib" },
-    { name = "numpy" },
     { name = "ska-ost-array-config" },
 ]
 
 [package.metadata]
+requires-dist = [{ name = "numpy" }]
 
 [package.metadata.requires-dev]
 geometry = [
     { name = "matplotlib" },
-    { name = "numpy" },
     { name = "ska-ost-array-config", specifier = "==4.5.0", index = "https://artefact.skao.int/repository/pypi-internal/simple" },
 ]
 
