@@ -120,3 +120,66 @@ array structure, independently rebuilds the operators from current geometry and
 UV sampling, exercises sparse application and normalisation, and checks the
 Science reconstruction against a literal implementation of the projection
 steps.
+
+## Regenerating derived outputs
+
+Validation products and reproduced operator archives are written under the
+ignored `build/` directory.  The commands below do not modify the committed
+frozen operator assets.
+
+To rerun the complete operator and reconstruction validation and regenerate the
+inspection plots:
+
+```bash
+uv run --group geometry tools/verify_operators.py
+```
+
+This writes:
+
+```text
+build/operator-validation/plots/outreach_operator_progression.png
+build/operator-validation/plots/science_reconstruction.png
+```
+
+The validation also checks all 20 committed frozen archives and independently
+rebuilds their numerical operators from the committed station geometry and
+current Earth-rotation sampling implementation.
+
+To reproduce all frozen operators on disk without overwriting the committed
+assets:
+
+```bash
+uv run --group geometry tools/build_frozen_operators.py
+```
+
+By default this writes the reproduced Outreach and Science archives, together
+with a summary containing their counts and SHA-256 digests, under:
+
+```text
+build/operator-reproduction/
+```
+
+The output covers both operator modes, all five SKA-Low stages, and both the
+snapshot and six-hour sampling configurations.
+
+For a quicker check of the serializer and regeneration path, a representative
+Outreach and Science pair can instead be generated with:
+
+```bash
+uv run --group geometry tools/build_frozen_operators.py \
+  --output build/operator-regeneration-check \
+  --modes outreach science \
+  --stages AA0.5 \
+  --durations snapshot
+```
+
+This produces:
+
+```text
+build/operator-regeneration-check/outreach/operator_AA0p5_snapshot.npz
+build/operator-regeneration-check/science/science_operator_AA0p5_snapshot.npz
+build/operator-regeneration-check/reproduction_summary.json
+```
+
+Because these outputs live under `build/`, running the validation or
+regeneration commands should leave the Git working tree clean.
