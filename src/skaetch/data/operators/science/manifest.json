@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "mode": "science",
+  "weighting": "natural",
+  "frequency_hz": 150000000.0,
+  "declination_deg": -26.7,
+  "site_latitude_deg": -26.82472208,
+  "field_deg": 0.7,
+  "npix": 1024,
+  "source_size_deg": 0.1,
+  "hour_angle_convention": "H = LST - RA",
+  "durations": {
+    "snapshot": {
+      "hour_angles_h": [
+        0.0
+      ]
+    },
+    "6h": {
+      "start_hour_angle_h": -3.0,
+      "stop_hour_angle_h": 3.0,
+      "count": 37
+    }
+  },
+  "stages": {
+    "AA0.5": {
+      "stations": 4,
+      "baseline_pairs": 6,
+      "max_baseline_km": 5.592
+    },
+    "AA1": {
+      "stations": 16,
+      "baseline_pairs": 120,
+      "max_baseline_km": 5.802
+    },
+    "AA2": {
+      "stations": 68,
+      "baseline_pairs": 2278,
+      "max_baseline_km": 64.805
+    },
+    "AA*": {
+      "stations": 307,
+      "baseline_pairs": 46971,
+      "max_baseline_km": 73.393
+    },
+    "AA4": {
+      "stations": 512,
+      "baseline_pairs": 130816,
+      "max_baseline_km": 73.442
+    }
+  },
+  "operators": {
+    "AA0.5": {
+      "snapshot": {
+        "file": "science_operator_AA0p5_snapshot.npz",
+        "touched_uv_cells": 34,
+        "accepted_samples": 12,
+        "total_samples": 12,
+        "sha256": "aee0e3b39da0a452491723644714e714ff367d0aa35759de819f9397ed95e1cf",
+        "total_weight": 11.551285666413605
+      },
+      "6h": {
+        "file": "science_operator_AA0p5_6h.npz",
+        "touched_uv_cells": 372,
+        "accepted_samples": 444,
+        "total_samples": 444,
+        "sha256": "8a04e50b6f8e396dc210468e8ce10a815ab3fe7c74c5b999a644a872748d757f",
+        "total_weight": 426.5794334424968
+      }
+    },
+    "AA1": {
+      "snapshot": {
+        "file": "science_operator_AA1_snapshot.npz",
+        "touched_uv_cells": 64,
+        "accepted_samples": 240,
+        "total_samples": 240,
+        "sha256": "82c6bd2331ef73d1769ace37c2c2b3681dfe2a78acdc7e7e891623077e8964b8",
+        "total_weight": 203.80523193701447
+      },
+      "6h": {
+        "file": "science_operator_AA1_6h.npz",
+        "touched_uv_cells": 526,
+        "accepted_samples": 8880,
+        "total_samples": 8880,
+        "sha256": "3da49553c0c45181d19009452a83f475d001b364206417b88cb66e4169489965",
+        "total_weight": 7496.45455770533
+      }
+    },
+    "AA2": {
+      "snapshot": {
+        "file": "science_operator_AA2_snapshot.npz",
+        "touched_uv_cells": 1992,
+        "accepted_samples": 4556,
+        "total_samples": 4556,
+        "sha256": "b8a137d7ffaeeb8c04abc482dcbf3b6b9873f47b58be011c02c79e7f8c6383cc",
+        "total_weight": 4434.7708264588
+      },
+      "6h": {
+        "file": "science_operator_AA2_6h.npz",
+        "touched_uv_cells": 47990,
+        "accepted_samples": 168572,
+        "total_samples": 168572,
+        "sha256": "b0d1073704d7d413047c31bbdfcacfcafe06268dd04bd43292f57485ff9c2be6",
+        "total_weight": 163916.68643422885
+      }
+    },
+    "AA*": {
+      "snapshot": {
+        "file": "science_operator_AAstar_snapshot.npz",
+        "touched_uv_cells": 8218,
+        "accepted_samples": 93942,
+        "total_samples": 93942,
+        "sha256": "d250723827050983a41f1183d0501614ecfa720e2a4d257ebe490ac2a4ea668a",
+        "total_weight": 92449.51493785498
+      },
+      "6h": {
+        "file": "science_operator_AAstar_6h.npz",
+        "touched_uv_cells": 108260,
+        "accepted_samples": 3475854,
+        "total_samples": 3475854,
+        "sha256": "513f6e874ebabfe17b9da11de356bcd594cc722a2e426f03595a690c9d3c797b",
+        "total_weight": 3415314.344473112
+      }
+    },
+    "AA4": {
+      "snapshot": {
+        "file": "science_operator_AA4_snapshot.npz",
+        "touched_uv_cells": 20892,
+        "accepted_samples": 261632,
+        "total_samples": 261632,
+        "sha256": "e1dbd86f3f723430e3c328e343dbc7b15957ca36b762a838eb71ac615cc3c165",
+        "total_weight": 259343.80064592435
+      },
+      "6h": {
+        "file": "science_operator_AA4_6h.npz",
+        "touched_uv_cells": 187034,
+        "accepted_samples": 9680384,
+        "total_samples": 9680384,
+        "sha256": "fdb39c659ee9bf1517cfea62f8b220703e1c39d52b433334b39d34e5f10d8477",
+        "total_weight": 9588651.464863718
+      }
+    }
+  },
+  "reconstruction": {
+    "method": "positive support-constrained Fourier projection",
+    "iterations": 20,
+    "support": "known centred artificial-source box plus 3-pixel margin",
+    "measured_fourier_values": "cell-normalized values from the natural sparse operator"
+  }
+}

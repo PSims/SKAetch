@@ -78,3 +78,11 @@ This is an intentionally transparent uniform-like weighting rule. It is not a ge
 The dirty image is the centred inverse Fourier transform of the weighted visibility grid. The point-spread function (PSF) is formed with the same inverse transform applied to the corresponding imaging-weight grid.
 
 Both are divided by the central PSF response. A unit-flux point source at the image centre therefore has unit peak response under either weighting mode. Complex arrays are retained by the API; when the Fourier grids are Hermitian, the imaginary image components should be round-off only.
+
+## Frozen live operators
+
+For the interactive exhibit, the fixed array/duration sampling patterns are
+pre-collapsed into sparse local-stencil operators so that changing artificial
+sources can be imaged without repeating the full gridding calculation.  The
+operators preserve the sampling and weighting conventions described here and
+are documented in [`operators_and_reconstruction.md`](operators_and_reconstruction.md).

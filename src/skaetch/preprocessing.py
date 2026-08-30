@@ -87,6 +87,22 @@ def robust_preprocess(image) -> np.ndarray:
     return np.clip(np.asarray(result, dtype=float), 0.0, 1.0)
 
 
+def science_preprocess(image) -> np.ndarray:
+    """Centre-crop and percentile-normalise an image without local enhancement.
+
+    This intentionally lighter preprocessing is used by the optional idealised
+    science reconstruction. It preserves the mature exhibit convention: RGB
+    and RGBA inputs are converted to luminance, then the 1st and 99th
+    percentiles are mapped to ``[0, 1]``.
+    """
+    cropped = centre_square_crop(image)
+    grey = _luminance(cropped)
+    low, high = np.percentile(grey, (1.0, 99.0))
+    if high - low > 1e-6:
+        return np.clip((grey - low) / (high - low), 0.0, 1.0)
+    return np.clip(grey, 0.0, 1.0)
+
+
 def cosine_edge_taper(
     shape: tuple[int, int],
     inner_fraction: float = TAPER_INNER_FRACTION,
@@ -119,30 +135,28 @@ def cosine_edge_taper(
     return taper
 
 
-def artificial_radio_source(
-    image,
+def embed_preprocessed_source(
+    processed,
     sky_shape: tuple[int, int],
     source_shape: tuple[int, int],
     *,
     total_flux: float = 1.0,
     taper_inner_fraction: float = TAPER_INNER_FRACTION,
 ) -> np.ndarray:
-    """Embed a tapered, fixed-flux artificial radio source in a larger sky.
-
-    ``robust_preprocess()`` is applied first.  The processed image is then
-    resized to ``source_shape`` with anti-aliasing, multiplied by the cosine
-    edge taper, normalised to ``total_flux``, and centred within ``sky_shape``.
-    """
+    """Resize, taper, flux-normalise, and centre an already processed source."""
     sky_shape = _shape_pair(sky_shape, "sky_shape")
     source_shape = _shape_pair(source_shape, "source_shape")
     if source_shape[0] > sky_shape[0] or source_shape[1] > sky_shape[1]:
         raise ValueError("source_shape must fit inside sky_shape")
 
+    processed = np.asarray(processed, dtype=float)
+    if processed.ndim != 2 or np.any(~np.isfinite(processed)):
+        raise ValueError("processed must be a finite two-dimensional array")
+
     total_flux = float(total_flux)
     if not np.isfinite(total_flux) or total_flux <= 0.0:
         raise ValueError("total_flux must be finite and positive")
 
-    processed = robust_preprocess(image)
     source = transform.resize(
         processed,
         source_shape,
@@ -166,3 +180,21 @@ def artificial_radio_source(
     x0 = sky_shape[1] // 2 - source_shape[1] // 2
     sky[y0 : y0 + source_shape[0], x0 : x0 + source_shape[1]] = source
     return sky
+
+
+def artificial_radio_source(
+    image,
+    sky_shape: tuple[int, int],
+    source_shape: tuple[int, int],
+    *,
+    total_flux: float = 1.0,
+    taper_inner_fraction: float = TAPER_INNER_FRACTION,
+) -> np.ndarray:
+    """Embed a robustly preprocessed artificial radio source in a larger sky."""
+    return embed_preprocessed_source(
+        robust_preprocess(image),
+        sky_shape,
+        source_shape,
+        total_flux=total_flux,
+        taper_inner_fraction=taper_inner_fraction,
+    )

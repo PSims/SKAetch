@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "mode": "outreach",
+  "weighting": "equal-cell",
+  "frequency_hz": 150000000.0,
+  "declination_deg": -26.7,
+  "site_latitude_deg": -26.82472208,
+  "field_deg": 1.5,
+  "npix": 2048,
+  "source_size_deg": 0.1,
+  "hour_angle_convention": "H = LST - RA",
+  "durations": {
+    "snapshot": {
+      "hour_angles_h": [
+        0.0
+      ]
+    },
+    "6h": {
+      "start_hour_angle_h": -3.0,
+      "stop_hour_angle_h": 3.0,
+      "count": 37
+    }
+  },
+  "stages": {
+    "AA0.5": {
+      "stations": 4,
+      "baseline_pairs": 6,
+      "max_baseline_km": 5.592
+    },
+    "AA1": {
+      "stations": 16,
+      "baseline_pairs": 120,
+      "max_baseline_km": 5.802
+    },
+    "AA2": {
+      "stations": 68,
+      "baseline_pairs": 2278,
+      "max_baseline_km": 64.805
+    },
+    "AA*": {
+      "stations": 307,
+      "baseline_pairs": 46971,
+      "max_baseline_km": 73.393
+    },
+    "AA4": {
+      "stations": 512,
+      "baseline_pairs": 130816,
+      "max_baseline_km": 73.442
+    }
+  },
+  "operators": {
+    "AA0.5": {
+      "snapshot": {
+        "file": "operator_AA0p5_snapshot.npz",
+        "touched_uv_cells": 48,
+        "accepted_samples": 12,
+        "total_samples": 12,
+        "sha256": "7f4f6a5ea4d3fb9fc4087a72131123e95a976f37884c4209db632fba65af3480"
+      },
+      "6h": {
+        "file": "operator_AA0p5_6h.npz",
+        "touched_uv_cells": 756,
+        "accepted_samples": 444,
+        "total_samples": 444,
+        "sha256": "31b20334a03176465fdbf44e8a2220161b9d4a58e818ea0acf9eb166def004b2"
+      }
+    },
+    "AA1": {
+      "snapshot": {
+        "file": "operator_AA1_snapshot.npz",
+        "touched_uv_cells": 130,
+        "accepted_samples": 240,
+        "total_samples": 240,
+        "sha256": "81b6de287b7569bac5c08a8268dbf3c4c881d2b9e63cf9c6b91f8bb68e34130c"
+      },
+      "6h": {
+        "file": "operator_AA1_6h.npz",
+        "touched_uv_cells": 1452,
+        "accepted_samples": 8880,
+        "total_samples": 8880,
+        "sha256": "85d62318cf104aa6279ba709bc8d090e249fec10631cb4e0ddcbd57ac010a81f"
+      }
+    },
+    "AA2": {
+      "snapshot": {
+        "file": "operator_AA2_snapshot.npz",
+        "touched_uv_cells": 3466,
+        "accepted_samples": 4556,
+        "total_samples": 4556,
+        "sha256": "86daccb88c64d7bb73680d43579347d8f3d6e67a1962f16f23b6cb65ff4c1077"
+      },
+      "6h": {
+        "file": "operator_AA2_6h.npz",
+        "touched_uv_cells": 99234,
+        "accepted_samples": 168572,
+        "total_samples": 168572,
+        "sha256": "4bae7f2bf6c46ae88656ae850d57ca4cecbc7e2bc7cb53b07255f8be6ed78559"
+      }
+    },
+    "AA*": {
+      "snapshot": {
+        "file": "operator_AAstar_snapshot.npz",
+        "touched_uv_cells": 19046,
+        "accepted_samples": 93942,
+        "total_samples": 93942,
+        "sha256": "b72b42ab7f874d7f46a2497d8bef4213f5cfee3e6c13e27b8b6d584d95ec350f"
+      },
+      "6h": {
+        "file": "operator_AAstar_6h.npz",
+        "touched_uv_cells": 283270,
+        "accepted_samples": 3475854,
+        "total_samples": 3475854,
+        "sha256": "1177416d95df4f21c36e7fd929789762391f22ac224c78b652d8db625f211152"
+      }
+    },
+    "AA4": {
+      "snapshot": {
+        "file": "operator_AA4_snapshot.npz",
+        "touched_uv_cells": 50678,
+        "accepted_samples": 261632,
+        "total_samples": 261632,
+        "sha256": "f3bf9d55944f6e5eec0b648da23ffc21e4d2f4855159b9d77cdf078594e94180"
+      },
+      "6h": {
+        "file": "operator_AA4_6h.npz",
+        "touched_uv_cells": 583440,
+        "accepted_samples": 9680384,
+        "total_samples": 9680384,
+        "sha256": "353553a45d86aefdc83fc6101a32f569404f5a073a66c70e98a3e65364f6a989"
+      }
+    }
+  }
+}

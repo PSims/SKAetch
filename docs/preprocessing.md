@@ -63,3 +63,19 @@ morphology from arbitrary optical exposure in the outreach analogy.
 The sky and source dimensions remain caller-supplied.  This layer therefore
 defines the numerical preprocessing method without fixing the later live
 application's deployment-specific image or operator sizes.
+
+## Optional Science preprocessing
+
+The optional constrained Science image deliberately uses a lighter source
+conditioning step.  `science_preprocess()` takes the same largest centred square
+crop and luminance conversion, but applies neither Gaussian smoothing nor
+CLAHE.  Instead it maps the 1st and 99th luminance percentiles to `[0, 1]`, with
+direct clipping for a negligible percentile range.
+
+`embed_preprocessed_source()` exposes the common resize, cosine-taper,
+fixed-flux and central-embedding operation for an already processed image.
+`artificial_radio_source()` remains the Outreach convenience path: it applies
+`robust_preprocess()` and then delegates to this common embedding function.
+
+The Science preprocessing and its idealised reconstruction are described
+further in [`operators_and_reconstruction.md`](operators_and_reconstruction.md).
