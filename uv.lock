@@ -1592,29 +1592,29 @@ name = "skaetch"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "matplotlib" },
     { name = "numpy" },
+    { name = "pillow" },
     { name = "scikit-image" },
     { name = "scipy" },
 ]
 
 [package.dev-dependencies]
 geometry = [
-    { name = "matplotlib" },
     { name = "ska-ost-array-config" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "matplotlib" },
     { name = "numpy" },
+    { name = "pillow" },
     { name = "scikit-image" },
     { name = "scipy" },
 ]
 
 [package.metadata.requires-dev]
-geometry = [
-    { name = "matplotlib" },
-    { name = "ska-ost-array-config", specifier = "==4.5.0", index = "https://artefact.skao.int/repository/pypi-internal/simple" },
-]
+geometry = [{ name = "ska-ost-array-config", specifier = "==4.5.0", index = "https://artefact.skao.int/repository/pypi-internal/simple" }]
 
 [[package]]
 name = "smmap"

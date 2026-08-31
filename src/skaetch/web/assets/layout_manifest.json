@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "display_only": true,
+  "products": {
+    "layout_AA0p5.png": {
+      "sha256": "c159bd41e9854c6fd25d9abe4af87709937a8eb3862d05383587a4d77cc4e65e",
+      "bytes": 14880
+    },
+    "layout_AA1.png": {
+      "sha256": "e786cf1d7922d074899e9e048d0bf09793eea8d3144118612044e1972da6e8c5",
+      "bytes": 15227
+    },
+    "layout_AA2.png": {
+      "sha256": "22703ba110013161477b3a3e3d0ef7a42fc0f0b5101b88135f06bd34b73f24c8",
+      "bytes": 16027
+    },
+    "layout_AAstar.png": {
+      "sha256": "77f99e0ef3c5836d6832cfcc6f9370afb32fd6610c020b77f45f12cc25bcc23f",
+      "bytes": 17671
+    },
+    "layout_AA4.png": {
+      "sha256": "5767aa9dc3c540f97fd89074d02703735090a795320fa78f3568e20600835616",
+      "bytes": 19841
+    }
+  }
+}

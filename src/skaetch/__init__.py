@@ -1,2 +1,7 @@
+"""SKAetch interactive SKA-Low radio interferometry outreach simulator."""
+
+
 def main() -> None:
-    print("Hello from skaetch!")
+    from skaetch.server import main as server_main
+
+    server_main()

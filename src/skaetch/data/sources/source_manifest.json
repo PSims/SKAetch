@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "purpose": "Demonstration-source integrity and provenance for bundled and optional local-only assets.",
+  "sources": {
+    "demo_einstein": {
+      "file": "einstein_schmutzer_1921.jpg",
+      "bytes": 2441086,
+      "sha256": "d145da92b2a4756c2261f7358fcd75c5271dbe7c51757e6b00dd458fa80a8d8c",
+      "credit": "Ferdinand Schmutzer, 1921; via Wikimedia Commons",
+      "licence": "Public domain / Public Domain Mark 1.0",
+      "bundled": true
+    },
+    "demo_fornax": {
+      "file": "fornax_A_nrao.jpg",
+      "bytes": 50984,
+      "sha256": "c6d3d9e879c4e78c66b5712efacbb276c8a02a9e989d572d45d3e4c92d90bd45",
+      "credit": "NRAO Interferometry Explained educational source image",
+      "licence": "See NRAO Media Resources / source-specific credit before external redistribution",
+      "bundled": false,
+      "optional_external": true
+    },
+    "demo_crab": {
+      "file": "M1Crab_nrao.jpg",
+      "bytes": 10309,
+      "sha256": "99ae1cb66d47d96196f15260f646886d96ca8e3ea4a40a656d78367254166d6a",
+      "credit": "NRAO Interferometry Explained educational source image",
+      "licence": "See NRAO Media Resources / source-specific credit before external redistribution",
+      "bundled": false,
+      "optional_external": true
+    },
+    "demo_cat": {
+      "file": "cat_silhouette.png",
+      "bytes": 7699,
+      "sha256": "83a92c9d57cfb026bdfdaa5b85e0d15218c7dc2885d27c6f3397440a74846629",
+      "credit": "Original synthetic exhibit illustration",
+      "licence": "Bundled exhibit asset; no external source",
+      "bundled": true
+    }
+  }
+}

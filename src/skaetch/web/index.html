@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071724">
+  <title>SKA Radio Portrait</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">◉</span>
+      <div><strong>SKA Radio Portrait</strong><small>Physics at Work 2026 prototype</small></div>
+    </div>
+    <div class="top-actions">
+      <span class="local-badge">● Local & offline</span>
+      <button id="fullscreenButton" class="icon-button" title="Full screen">⛶</button>
+      <button id="facilitatorButton" class="icon-button wide" title="Facilitator controls">Facilitator</button>
+    </div>
+  </div>
+
+  <main id="appShell" class="app-shell">
+    <section id="captureScreen" class="screen active capture-screen">
+      <div class="capture-copy">
+        <div class="eyebrow">Step 1 · Make an imaginary radio sky</div>
+        <h1>Make a radio portrait</h1>
+        <p class="lead">Use the camera or choose Einstein. We will pretend the picture’s light and dark patches are radio brightness in the sky.</p>
+        <p class="science-honesty">The SKA would not really see a photograph like this — the picture is an imaginary radio test pattern for learning about interferometry.</p>
+        <div class="capture-actions desktop-actions">
+          <button id="startCamera" class="button primary xl">Start camera</button>
+          <button id="captureButton" class="button warm xl" disabled>Take radio portrait</button>
+          <button id="useEinsteinButton" class="button xl">Use Einstein instead</button>
+        </div>
+        <p class="privacy-note">Any camera photo is processed on this computer and is not saved.</p>
+        <p class="display-note">For display, the imaginary sky and reconstruction show a zoomed view of the central source.</p>
+      </div>
+
+      <div class="camera-stage">
+        <div class="camera-shell">
+          <video id="video" playsinline autoplay muted></video>
+          <canvas id="captureCanvas" width="720" height="720" hidden></canvas>
+          <div class="frame-shade" aria-hidden="true"></div>
+          <div class="frame-guide" aria-hidden="true">
+            <div class="corner tl"></div><div class="corner tr"></div>
+            <div class="corner bl"></div><div class="corner br"></div>
+            <span>Keep the subject inside this square</span>
+          </div>
+          <div id="cameraFallback" class="camera-fallback">
+            <strong>Camera not started</strong>
+            <span>Press “Start camera” or use Einstein instead.</span>
+          </div>
+        </div>
+        <div class="capture-actions mobile-actions">
+          <button id="startCameraMobile" class="button primary xl">Start camera</button>
+          <button id="captureButtonMobile" class="button warm xl" disabled>Take radio portrait</button>
+          <button id="useEinsteinButtonMobile" class="button xl">Use Einstein</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="exploreScreen" class="screen explore-screen" hidden>
+      <div class="story-header">
+        <div>
+          <div class="eyebrow" id="storyEyebrow">Step 2 · Build the telescope</div>
+          <h1 id="storyTitle">Start with the early 16-station array</h1>
+          <p id="storyPrompt" class="story-prompt">Can you recognise the source from one instant?</p>
+        </div>
+        <div id="stageTrack" class="stage-track" aria-label="Core visitor stages; all construction stages remain available in Facilitator controls"></div>
+      </div>
+
+      <div class="explore-grid">
+        <section class="portrait-hero">
+          <div class="portrait-label-row">
+            <span class="portrait-label">SKA reconstruction · false-colour display</span>
+            <span id="sourceStatus" class="status-pill source-status">Image</span><span id="resultStatus" class="status-pill">AA1 · Snapshot</span>
+          </div>
+          <div class="portrait-frame">
+            <img id="radioImage" alt="Radio portrait reconstruction">
+            <div id="working" class="working-overlay" hidden>
+              <div class="pulse"></div><span id="workingText">Measuring the Fourier sky…</span>
+            </div>
+          </div>
+          <div class="hero-question" id="heroQuestion">What information is missing?</div>
+        </section>
+
+        <aside class="science-panel">
+          <div class="science-panel-heading">
+            <span>What is the telescope measuring?</span>
+            <button id="scienceToggle" class="text-button" aria-expanded="true">Hide</button>
+          </div>
+          <div id="scienceBody">
+            <div class="science-tabs">
+              <button class="science-tab active" data-science-tab="layout">Stations</button>
+              <button class="science-tab" data-science-tab="uv">Fourier sampling</button>
+              <button class="science-tab" data-science-tab="sky">Imaginary sky · false colour</button>
+            </div>
+            <div id="uvViewToggle" class="uv-view-toggle" hidden>
+              <span>Fourier display</span>
+              <div class="uv-view-buttons">
+                <button class="uv-view-button active" data-uv-view="animated">Animated tracks</button>
+                <button class="uv-view-button" data-uv-view="static">Sampling plot</button>
+                <button id="uvReplayButton" class="uv-replay-button" title="Replay Earth-rotation tracks" aria-label="Replay Earth-rotation tracks">↻</button>
+              </div>
+            </div>
+            <div id="uvColourLegend" class="uv-colour-legend" hidden aria-label="Fourier sampling colour key">
+              <span><i class="uv-dot baseline"></i>Baseline sample</span>
+              <span><i class="uv-dot conjugate"></i>Conjugate symmetry</span>
+            </div>
+            <div class="science-visual">
+              <img id="layoutImage" class="science-image active" alt="SKA-Low station layout">
+              <div id="uvStack" class="uv-stack science-image track-mode">
+                <img id="uvSnapshotImage" alt="Snapshot uv coverage">
+                <img id="uvEarthImage" class="uv-earth" alt="Six-hour uv coverage">
+                <canvas id="uvTrackCanvas" width="640" height="520" aria-label="Animated Earth-rotation Fourier tracks"></canvas>
+                <canvas id="uvPointCanvas" width="640" height="520" aria-hidden="true"></canvas>
+                <div id="uvTrackBadge" class="uv-track-badge">Snapshot</div>
+                <div id="earthBadge" class="earth-badge">Earth ↻</div>
+              </div>
+              <img id="skyImage" class="science-image" alt="Artificial radio sky">
+            </div>
+            <p id="angularScaleNote" class="angular-scale-note" aria-live="polite"></p>
+            <div class="facts">
+              <div><strong id="stations">4</strong><span>stations</span></div>
+              <div><strong id="pairs">6</strong><span>station pairs</span></div>
+              <div><strong id="maxBaseline">5.592 km</strong><span>longest spacing</span></div>
+            </div>
+            <p id="scienceExplanation" class="science-explanation"></p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="visitor-controls">
+        <div class="stage-navigation">
+          <button id="buildPreviousButton" class="stage-back-button" aria-label="Previous construction stage" title="Previous stage (Left arrow)">
+            <span aria-hidden="true">←</span><small>Back</small>
+          </button>
+          <button id="buildForwardButton" class="stage-back-button stage-forward-button" aria-label="Next construction stage" title="Next stage (Right arrow)">
+            <span aria-hidden="true">→</span><small>Forward</small>
+          </button>
+          <button id="buildNextButton" class="big-control build-control">
+            <span class="control-icon">＋</span>
+            <span><small>Build the SKA</small><strong id="buildNextLabel">Let Earth rotate → 6 h</strong></span>
+          </button>
+        </div>
+        <button id="rotateButton" class="big-control rotate-control">
+          <span id="earthIcon" class="control-icon earth-icon">⊕</span>
+          <span><small>Earth-rotation synthesis</small><strong id="rotateLabel">Let Earth rotate</strong></span>
+        </button>
+        <button id="newImageButton" class="big-control reset-control">
+          <span class="control-icon">↺</span>
+          <span><small>Finished?</small><strong>New image</strong></span>
+        </button>
+      </div>
+
+      <div class="lesson-strip">
+        <strong id="lessonHeadline">Different pairs of stations measure different kinds of detail.</strong>
+        <span id="lessonDetail">Short spacings measure broad structure. Long spacings measure fine structure.</span>
+      </div>
+    </section>
+  </main>
+
+  <aside id="facilitatorDrawer" class="facilitator-drawer" aria-hidden="true">
+    <div class="drawer-head"><div><strong>Facilitator controls</strong><small>Press F to show/hide</small></div><button id="closeFacilitator" class="icon-button">×</button></div>
+    <div class="drawer-section"><label>Demo story</label>
+      <p class="drawer-help">Build the SKA is the current rehearsal default: AA1 snapshot → AA1 6 h → AA2 → AA* → AA4. The shorter Build + Earth rotation story remains available when isolating aperture synthesis is more useful.</p>
+      <div id="facilitatorStories" class="mini-grid two"></div>
+    </div>
+    <div class="drawer-section"><label>Jump to stage</label><div id="facilitatorStages" class="mini-grid"></div></div>
+    <div class="drawer-section"><label>Observation</label><p class="drawer-help">Snapshot and 6 h remain freely selectable at every stage for facilitator improvisation. Forward/Back returns to the recommended story sequence.</p><div id="facilitatorDurations" class="mini-grid two"></div></div>
+    <div class="drawer-section"><label>Fourier display</label>
+      <p class="drawer-help">Blue marks the independent baseline samples; orange shows their complex-conjugate counterparts. Animated tracks run chronologically from H = −3 h to +3 h. Both display modes use the same validated geometry. Dense stages use stage-dependent representative display subsets so the growing array visibly fills more of the uv plane; imaging still uses all baselines.</p>
+      <div id="facilitatorUvDisplays" class="mini-grid two"></div>
+    </div>
+    <div class="drawer-section"><label>Image reveal</label>
+      <p class="drawer-help">When Animated tracks is selected, “After observation” holds the new reconstruction until the six-hour track animation has finished. “Immediate” shows it as soon as the local calculation is ready.</p>
+      <div id="facilitatorImageReveal" class="mini-grid two"></div>
+    </div>
+    <div class="drawer-section"><label>Image mode</label>
+      <p id="imageModeHelp" class="drawer-help">Outreach view shows the dirty interferometric image. Science image uses a finer Fourier grid and an idealised constrained iterative reconstruction.</p>
+      <div id="facilitatorImageModes" class="mini-grid two"></div>
+    </div>
+    <div class="drawer-section"><label>Source</label>
+      <p id="sourceHelp" class="drawer-help">A captured camera image is retained in memory until “New image”. You can switch sources without losing it.</p>
+      <div id="facilitatorSources" class="source-grid"></div>
+      <p id="sourceInstallNote" class="drawer-help"></p>
+      <p id="sourceCredit" class="drawer-help source-credit"></p>
+    </div>
+    <div class="drawer-section"><label>Session</label><div class="mini-grid two"><button id="facilitatorReset" class="button">New image</button><button id="facilitatorCapture" class="button">Back to camera</button></div></div>
+    <div class="drawer-section diagnostic"><label>Diagnostics</label><div id="timing">No portrait processed yet.</div><div id="operatorStatus">Loading metadata…</div></div>
+  </aside>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/app.js"></script>
+</body>
+</html>

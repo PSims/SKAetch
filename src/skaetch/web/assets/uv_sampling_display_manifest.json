@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "display_only": true,
+  "colour_semantics": {
+    "baseline_sample": "#0b648f",
+    "complex_conjugate": "#e88426"
+  },
+  "baseline_count_formula": "N(N-1)/2 independent unordered antenna pairs",
+  "conjugate_relation": "V(-u,-v) = V*(u,v) for a real sky brightness distribution",
+  "geometry_package_version": "4.5.0",
+  "display_baseline_caps": {
+    "AA*": 24000,
+    "AA4": 48000
+  },
+  "display_density_note": "Dense static plots use deterministic stage-dependent display subsets: AA* 24,000 and AA4 48,000 baseline pairs per hour-angle sample. Imaging still uses every baseline pair.",
+  "products": {
+    "uv_AA0p5_snapshot.png": {
+      "sha256": "0c1f1f0ce6b44db4aad89ffb5a37d93f9ffc90902df93566e2c60a0c9ff24e31",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA0.5",
+      "duration": "snapshot",
+      "total_baseline_pairs": 6,
+      "display_baseline_pairs_per_hour": 6,
+      "display_subset": false
+    },
+    "uv_AA0p5_6h.png": {
+      "sha256": "3d8f92838b6b9099defe4b93ff6e870bb58b91e244ab9ac737457ac9652d91e1",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA0.5",
+      "duration": "6h",
+      "total_baseline_pairs": 6,
+      "display_baseline_pairs_per_hour": 6,
+      "display_subset": false
+    },
+    "uv_AA1_snapshot.png": {
+      "sha256": "4707884268980f313390f625c1453c1f4f46645dfc62f8bc6b41519bb1551e12",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA1",
+      "duration": "snapshot",
+      "total_baseline_pairs": 120,
+      "display_baseline_pairs_per_hour": 120,
+      "display_subset": false
+    },
+    "uv_AA1_6h.png": {
+      "sha256": "bba5498979abb136350e81b6a11187d468fe1d81c6e2ec638f2f275727ad301a",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA1",
+      "duration": "6h",
+      "total_baseline_pairs": 120,
+      "display_baseline_pairs_per_hour": 120,
+      "display_subset": false
+    },
+    "uv_AA2_snapshot.png": {
+      "sha256": "a5bd4bcd97c3fcfe297a6fdac166d20885e024a8e123228c7661c09162be7f92",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA2",
+      "duration": "snapshot",
+      "total_baseline_pairs": 2278,
+      "display_baseline_pairs_per_hour": 2278,
+      "display_subset": false
+    },
+    "uv_AA2_6h.png": {
+      "sha256": "eaf91af72ea5e7e405bb0b2dfb8af44e66cfc948e2a72b2b005483fe337ef0ca",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA2",
+      "duration": "6h",
+      "total_baseline_pairs": 2278,
+      "display_baseline_pairs_per_hour": 2278,
+      "display_subset": false
+    },
+    "uv_AAstar_snapshot.png": {
+      "sha256": "14a1ee1e2606e0106af9ed5e7ca9fd1193e487c7564fb397fd212d0a11c29737",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA*",
+      "duration": "snapshot",
+      "total_baseline_pairs": 46971,
+      "display_baseline_pairs_per_hour": 24000,
+      "display_subset": true
+    },
+    "uv_AAstar_6h.png": {
+      "sha256": "dd846f5bfd0b8871af0244b2d1c8e28e998ba6987879f98abfe6548a35391bfe",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA*",
+      "duration": "6h",
+      "total_baseline_pairs": 46971,
+      "display_baseline_pairs_per_hour": 24000,
+      "display_subset": true
+    },
+    "uv_AA4_snapshot.png": {
+      "sha256": "e3632e26cc049f76f804a3cd5ccbac32c10efe245d4386ce7e1aa31196bf1b97",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA4",
+      "duration": "snapshot",
+      "total_baseline_pairs": 130816,
+      "display_baseline_pairs_per_hour": 48000,
+      "display_subset": true
+    },
+    "uv_AA4_6h.png": {
+      "sha256": "67116e12a011f373cca67978462149e3fa3217423acced760a7eb9747e12edcd",
+      "width_px": 640,
+      "height_px": 520,
+      "stage": "AA4",
+      "duration": "6h",
+      "total_baseline_pairs": 130816,
+      "display_baseline_pairs_per_hour": 48000,
+      "display_subset": true
+    }
+  }
+}

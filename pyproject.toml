@@ -10,6 +10,8 @@ dependencies = [
     "numpy",
     "scipy",
     "scikit-image",
+    "matplotlib",
+    "pillow",
 ]
 
 [project.scripts]
@@ -17,7 +19,6 @@ skaetch = "skaetch:main"
 
 [dependency-groups]
 geometry = [
-    "matplotlib",
     "ska-ost-array-config==4.5.0",
 ]
 

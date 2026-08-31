@@ -1,0 +1,71 @@
+{
+  "demo_einstein": {
+    "label": "Albert Einstein (1921)",
+    "short_label": "Einstein",
+    "filename": "einstein_schmutzer_1921.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Albert_Einstein_1921_by_F_Schmutzer.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Albert_Einstein_1921_by_F_Schmutzer.jpg",
+    "credit": "Ferdinand Schmutzer, 1921; via Wikimedia Commons",
+    "licence": "Public domain / Public Domain Mark 1.0",
+    "preprocess": "robust",
+    "kind": "scientist portrait",
+    "note": "Recognisable static portrait used as an artificial radio-sky test pattern.",
+    "source_size_arcmin_outreach": 12.0,
+    "source_size_arcmin_science": 12.0,
+    "angular_scale_note": "Artificial test pattern; the 12 arcmin angular size is an exhibit choice rather than a physical property of the picture."
+  },
+  "demo_fornax": {
+    "label": "Fornax A",
+    "short_label": "Fornax A",
+    "filename": "fornax_A_nrao.jpg",
+    "url": "https://public.nrao.edu/wp-content/themes/nrao/img/inter/fornax_A.jpg",
+    "source_page": "https://public.nrao.edu/interferometry-explained/",
+    "credit": "NRAO Interferometry Explained educational source image",
+    "licence": "See NRAO Media Resources / source-specific credit before external redistribution",
+    "preprocess": "science",
+    "kind": "radio astronomy source",
+    "note": "Extended double-lobed radio source shown at approximately its published low-frequency angular extent; Outreach and precomputed Cleaned views use the same 1.5° field.",
+    "source_size_arcmin_outreach": 72.0,
+    "supported_image_modes": [
+      "outreach",
+      "science"
+    ],
+    "angular_scale_note": "Approximately true low-frequency angular extent (~72 arcmin east–west); same illustrative observing geometry as the rest of the exhibit.",
+    "source_size_arcmin_science": 72.0,
+    "field_deg_science": 1.5,
+    "science_mode_label": "Cleaned image",
+    "science_mode_note": "Uses a locally generated natural-weighted, positive support-constrained reconstruction on the same 1.5° field; regenerate with tools/build_fornax_cleaned.py when the optional Fornax raster is installed.",
+    "optional_external": true,
+    "science_requires_local_cache": true
+  },
+  "demo_crab": {
+    "label": "M1: Crab Nebula",
+    "short_label": "Crab Nebula",
+    "filename": "M1Crab_nrao.jpg",
+    "url": "https://public.nrao.edu/wp-content/themes/nrao/img/inter/M1Crab.jpg",
+    "source_page": "https://public.nrao.edu/interferometry-explained/",
+    "credit": "NRAO Interferometry Explained educational source image",
+    "licence": "See NRAO Media Resources / source-specific credit before external redistribution",
+    "preprocess": "science",
+    "kind": "radio astronomy source",
+    "note": "Radio astronomy source shown at an approximately physical several-arcminute angular scale.",
+    "angular_scale_note": "Shown at 6 arcmin, close to the Crab Nebula’s observed several-arcminute extent.",
+    "source_size_arcmin_outreach": 6.0,
+    "source_size_arcmin_science": 6.0,
+    "optional_external": true
+  },
+  "demo_cat": {
+    "label": "Cat silhouette",
+    "short_label": "Cat",
+    "filename": "cat_silhouette.png",
+    "credit": "Original synthetic exhibit illustration",
+    "licence": "Bundled exhibit asset; no external source",
+    "preprocess": "robust",
+    "kind": "fun test pattern",
+    "note": "High-contrast synthetic cat silhouette used as an artificial radio-sky test pattern.",
+    "local_only": true,
+    "source_size_arcmin_outreach": 12.0,
+    "source_size_arcmin_science": 12.0,
+    "angular_scale_note": "Artificial test pattern; the 12 arcmin angular size is an exhibit choice rather than a physical property of the picture."
+  }
+}

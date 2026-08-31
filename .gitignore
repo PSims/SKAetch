@@ -222,3 +222,5 @@ __marimo__/
 ._*
 
 
+# Optional local exhibit assets
+local_assets/
