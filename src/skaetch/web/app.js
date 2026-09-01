@@ -21,12 +21,13 @@ const DEMO_STORIES={
   ]
  }
 };
-const state={stage:'AA1',duration:'snapshot',demoStory:'build',imageRevealMode:'after',imageMode:'outreach',uvDisplayMode:'animated',capture:null,capturedCameraImage:null,mode:null,sourceLabel:'No source',metadata:null,stream:null,screen:'capture',scienceTab:'layout',requestToken:0,aborter:null,trackCache:{},trackAnimationId:0,pendingUvAnimationPromise:Promise.resolve(),delayNextImageReveal:false};
+const VISITOR_DEFAULTS={stage:'AA1',duration:'snapshot',demoStory:'build',imageRevealMode:'after',imageMode:'outreach',uvDisplayMode:'animated'};
+const state={...VISITOR_DEFAULTS,capture:null,capturedCameraImage:null,mode:null,sourceLabel:'No source',metadata:null,stream:null,screen:'capture',scienceTab:'layout',requestToken:0,aborter:null,trackCache:{},trackAnimationId:0,pendingUvAnimationPromise:Promise.resolve(),delayNextImageReveal:false};
 
 const story={
  'AA0.5':{
   title:'Start with just four stations',
-  snapshot:'Can four stations recover your portrait?',
+  snapshot:'Can four stations recover the image?',
   six:'The same four stations observe from more directions — but there are still only six station pairs.',
   questionSnapshot:'What information is missing?',questionSix:'Did rotation help — and what can it not create?',
   lesson:'With only four stations, the telescope measures very few spatial patterns.'
@@ -62,7 +63,7 @@ const story={
 };
 
 const buildStory={
- 'AA1':{title:'Start with the early 16-station array',snapshot:'First take an instant snapshot with 16 stations and only 120 independent station pairs.',six:'Now let Earth rotate. The same 120 pairs sweep through more Fourier directions — but rotation cannot create the missing variety of baseline lengths.',questionSnapshot:'Can you recognise the source from one instant?',questionSix:'Did Earth rotation add information — and why is the image still poor?',lesson:'Earth rotation adds sampling directions, but it cannot replace the missing baselines of a small array.'},
+ 'AA1':{title:'Start with the early 16-station array',snapshot:'First take an instant snapshot with 16 stations and only 120 independent station pairs.',six:'Now let Earth rotate. The same 120 pairs sweep through more Fourier directions — but rotation cannot create the missing variety of baseline lengths.',questionSnapshot:'Can you recognise the source from one instant?',questionSix:'Did Earth rotation add information — and why is the image still poor?',lessonSnapshot:'With 16 stations, the telescope has only 120 independent station pairs, so many spatial patterns are still unsampled.',lessonSix:'Earth rotation adds sampling directions, but it cannot replace the missing baseline diversity of a small array.'},
  'AA2':{title:'Build the next major array: 68 stations',six:'AA2 adds many more stations and much longer baselines. A recognisable image is beginning to emerge.',questionSix:'What can you recognise now that was missing at AA1?',lesson:'Adding stations creates many more baseline pairs, but their lengths and directions still matter.'},
  'AA*':{title:'Grow to the 307-station deployment array',six:'A much richer mix of short and long spacings now recovers a clear picture.',questionSix:'Which details become clear at AA*?',lesson:'Dense short-baseline coverage plus many longer spacings recovers both broad structure and fine detail.'},
  'AA4':{title:'Reach the full 512-station SKA-Low design',six:'The full design gives an exceptionally rich six-hour Fourier sampling pattern and a polished reconstruction.',questionSix:'How much more complete is the final picture?',lesson:'The full array combines 130,816 independent station pairs with Earth rotation to sample the Fourier plane densely.'}
@@ -180,9 +181,15 @@ function updateSourceButtons(){
  const missingOptional=['demo_fornax','demo_crab'].filter(m=>!sourceAvailable(m));
  const note=$('sourceInstallNote');if(note)note.textContent=missingOptional.length?'Fornax A and Crab are optional local assets and may be unavailable in a public installation.':'Optional Fornax A and Crab assets are enabled locally.';
  const active=activeSourceRecord();const credit=$('sourceCredit');if(credit)credit.textContent=active?`Source credit: ${active.credit}`:'';
+ updateVisitorSourceCredit();
  updateImageModeAvailability();
 }
 
+function updateVisitorSourceCredit(){
+ const credit=$('visitorSourceCredit');if(!credit)return;
+ const active=activeSourceRecord();const show=Boolean(active?.optional_external&&active?.credit);
+ credit.hidden=!show;credit.textContent=show?`Image source: ${active.credit}`:'';
+}
 
 function updateAngularScaleNote(){
  const note=$('angularScaleNote');if(!note)return;
@@ -416,6 +423,7 @@ function updateUI(animate=true){
  const stage=state.stage,meta=state.metadata.stages[stage],six=state.duration==='6h';
  const coreIndex=visitorStateIndex(),states=visitorStates(),stageOrder=visitorStageOrder();
  const copy=state.demoStory==='build'&&buildStory[stage]?{...story[stage],...buildStory[stage]}:story[stage];
+ const lesson=six?(copy.lessonSix||copy.lesson):(copy.lessonSnapshot||copy.lesson);
  if(state.demoStory==='build'&&coreIndex>=0)$('storyEyebrow').textContent=`Build the SKA · ${coreIndex+1} of ${states.length}`;
  else $('storyEyebrow').textContent=coreIndex===0?'Step 2 · Start with a small array':coreIndex===1?'Step 3 · Build the full SKA':coreIndex===2?'Step 4 · Let Earth rotate':`Facilitator view · ${stage}`;
  $('storyTitle').textContent=copy.title; $('storyPrompt').textContent=six?copy.six:copy.snapshot; $('heroQuestion').textContent=six?copy.questionSix:copy.questionSnapshot;
@@ -439,10 +447,10 @@ function updateUI(animate=true){
  document.querySelectorAll('[data-image-reveal]').forEach(b=>b.classList.toggle('active',b.dataset.imageReveal===state.imageRevealMode));
  document.querySelectorAll('[data-fac-stage]').forEach(b=>b.classList.toggle('active',b.dataset.facStage===stage)); document.querySelectorAll('[data-fac-duration]').forEach(b=>b.classList.toggle('active',b.dataset.facDuration===state.duration)); document.querySelectorAll('[data-image-mode]').forEach(b=>b.classList.toggle('active',b.dataset.imageMode===state.imageMode)); document.querySelectorAll('[data-uv-view]').forEach(b=>b.classList.toggle('active',b.dataset.uvView===state.uvDisplayMode));
  const fornaxCleaned=state.mode==='demo_fornax'&&state.imageMode==='science';
- $('scienceExplanation').textContent=copy.lesson+(six?' Earth rotation adds new sampling directions without moving the stations.':' A snapshot measures only one instant of the rotating sky.')+(fornaxCleaned?' Cleaned image uses a locally generated natural-weighted, positive support-constrained reconstruction on the same 1.5° field; the regeneration tool reproduces it from the optional source and exact geometry.':state.imageMode==='science'?' Science image uses a finer Fourier grid and an idealised positive, support-constrained iterative reconstruction; it is an exhibit diagnostic, not a replacement for research imaging software.':' Outreach view shows the dirty image directly so the effect of incomplete Fourier sampling stays visible.')+' For display, colour indicates intensity.';
+ $('scienceExplanation').textContent=lesson+(six?' This six-hour view accumulates measurements as Earth rotates.':' A snapshot measures only one instant.')+(fornaxCleaned?' Cleaned image uses a locally generated natural-weighted, positive support-constrained reconstruction on the same 1.5° field; the regeneration tool reproduces it from the optional source and exact geometry.':state.imageMode==='science'?' Science image uses a finer Fourier grid and an idealised positive, support-constrained iterative reconstruction; it is an exhibit diagnostic, not a replacement for research imaging software.':' Outreach view shows the dirty image directly so the effect of incomplete Fourier sampling stays visible.')+' For display, colour indicates intensity.';
  updateAngularScaleNote();
- $('lessonHeadline').textContent=copy.lesson;
- $('lessonDetail').textContent=stage==='AA2'?'AA2 is the surprise: lots of long baselines do not replace the short spacings needed for broad structure.':'Short spacings measure broad structure; long spacings measure fine detail; Earth rotation adds directions.';
+ $('lessonHeadline').textContent=lesson;
+ $('lessonDetail').textContent=stage==='AA2'?'AA2 is the surprise: lots of long baselines do not replace the short spacings needed for broad structure.':six?'Short spacings measure broad structure; long spacings measure fine detail; Earth rotation adds directions, not new station pairs.':'Short spacings measure broad structure; long spacings measure fine detail.';
  if(animate){$('layoutImage').classList.remove('active');void $('layoutImage').offsetWidth;if(state.scienceTab==='layout')$('layoutImage').classList.add('active');}
  const animateTracks=animate&&six&&state.uvDisplayMode==='animated'&&state.scienceTab==='uv';
  state.delayNextImageReveal=Boolean(animateTracks&&state.imageRevealMode==='after');
@@ -471,7 +479,7 @@ function toggleFacilitator(force){const d=$('facilitatorDrawer');const open=forc
 async function toggleFullscreen(){try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen();}catch(e){console.warn(e);}}
 
 function resetForNewImage(){
- state.capture=null;state.capturedCameraImage=null;state.mode=null;state.sourceLabel='No source';state.demoStory='build';state.imageRevealMode='after';state.stage='AA1';state.duration='snapshot';state.imageMode='outreach';state.uvDisplayMode='animated';buildStageTrack();cancelUvAnimation();state.requestToken++;if(state.aborter)state.aborter.abort();
+ state.capture=null;state.capturedCameraImage=null;state.mode=null;state.sourceLabel='No source';Object.assign(state,VISITOR_DEFAULTS);buildStageTrack();cancelUvAnimation();state.requestToken++;if(state.aborter)state.aborter.abort();
  const c=$('captureCanvas');c.getContext('2d').clearRect(0,0,c.width,c.height);updateSourceButtons();$('radioImage').removeAttribute('src');$('skyImage').removeAttribute('src');$('timing').textContent='No portrait processed yet.';updateUI(false);showCaptureScreen();toast('Ready for a new image.');
 }
 function toast(message){const t=$('toast');t.textContent=message;t.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.hidden=true,2200);}

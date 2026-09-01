@@ -2,7 +2,9 @@
 
 The live exhibit includes two bundled demonstration images and can optionally use
 additional local-only radio-source rasters.  All are used as brightness
-templates for the interferometry activity.
+templates for the interferometry activity.  When an optional external NRAO
+source is selected, its catalogue credit is displayed in the ordinary visitor
+interface as well as in Facilitator controls.
 
 ## Albert Einstein (1921)
 

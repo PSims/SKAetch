@@ -133,6 +133,59 @@ def deterministic_track_indices(stage: str, n_baselines: int) -> np.ndarray:
     return out.astype(np.int64)
 
 
+def validate_browser_story_copy_and_reset() -> int:
+    app = resource("web", "app.js").read_text(encoding="utf-8")
+    html = resource("web", "index.html").read_text(encoding="utf-8")
+
+    forbidden = (
+        "Physics at Work 2026 prototype",
+        "current rehearsal default",
+        "Can four stations recover your portrait?",
+    )
+    for phrase in forbidden:
+        if phrase in app or phrase in html:
+            raise AssertionError(f"obsolete exhibit wording remains: {phrase}")
+
+    required_app = (
+        "const VISITOR_DEFAULTS={stage:'AA1',duration:'snapshot',demoStory:'build',imageRevealMode:'after',imageMode:'outreach',uvDisplayMode:'animated'};",
+        "snapshot:'Can four stations recover the image?'",
+        "lessonSnapshot:'With 16 stations, the telescope has only 120 independent station pairs, so many spatial patterns are still unsampled.'",
+        "lessonSix:'Earth rotation adds sampling directions, but it cannot replace the missing baseline diversity of a small array.'",
+        "Object.assign(state,VISITOR_DEFAULTS)",
+        "updateVisitorSourceCredit()",
+        "Image source: ${active.credit}",
+    )
+    for phrase in required_app:
+        if phrase not in app:
+            raise AssertionError(f"browser story/reset contract missing: {phrase}")
+
+    required_html = (
+        "Physics at Work 2026</small>",
+        "Build the SKA is the default story:",
+        'id="visitorSourceCredit"',
+    )
+    for phrase in required_html:
+        if phrase not in html:
+            raise AssertionError(f"browser exhibit copy missing: {phrase}")
+
+    reset_start = app.find("function resetForNewImage(){")
+    reset_end = app.find("\nfunction toast", reset_start)
+    if reset_start < 0 or reset_end < 0:
+        raise AssertionError("could not locate New image reset function")
+    reset = app[reset_start:reset_end]
+    for phrase in (
+        "state.capture=null",
+        "state.capturedCameraImage=null",
+        "state.mode=null",
+        "Object.assign(state,VISITOR_DEFAULTS)",
+        "showCaptureScreen()",
+    ):
+        if phrase not in reset:
+            raise AssertionError(f"New image reset no longer enforces: {phrase}")
+
+    return len(forbidden) + len(required_app) + len(required_html) + 5
+
+
 def validate_static_display_assets() -> tuple[int, int, int]:
     layout_manifest = load_json("web", "assets", "layout_manifest.json")
     uv_manifest = load_json("web", "assets", "uv_sampling_display_manifest.json")
@@ -403,6 +456,7 @@ def main() -> None:
 
     bundled_count, bundled_bytes, optional_count, optional_bytes = validate_source_assets(optional_assets_dir)
     fornax_count, fornax_bytes = validate_fornax_cache(optional_assets_dir)
+    browser_contract_checks = validate_browser_story_copy_and_reset()
     layout_count, static_uv_count, track_stage_count = validate_static_display_assets()
     track_points, quantization_error = validate_track_coordinates()
 
@@ -432,6 +486,7 @@ def main() -> None:
         print(f"PASS local Fornax cleaned cache: {fornax_count} PNGs, {fornax_bytes / 1024**2:.2f} MiB")
     else:
         print("PASS local Fornax cleaned cache: absent from this installation")
+    print(f"PASS browser exhibit copy/reset contract: {browser_contract_checks} checks")
     print(
         f"PASS browser display assets: {layout_count} layouts, {static_uv_count} static Fourier plots, "
         f"{track_stage_count} animated-track stages"

@@ -48,7 +48,8 @@ cannot replace the missing diversity of baseline lengths and directions.
 
 Snapshot and six-hour sampling remain freely selectable at every construction
 stage.  Forward/Back returns to the recommended visitor sequence after an
-improvised duration change.
+improvised duration change.  **New image** clears the retained capture and
+restores the complete default visitor state at AA1 snapshot.
 
 ## Runtime data flow
 

@@ -74,6 +74,10 @@ Keyboard shortcuts on the main exploration screen are:
 - **F:** facilitator controls;
 - **Escape:** close facilitator controls.
 
+**New image** clears the retained camera capture and resets the visitor defaults to
+**Build the SKA**, **AA1 snapshot**, **Outreach view**, **Animated tracks**, and
+**After observation**.
+
 ## Real radio-source examples
 
 When their optional local assets are installed, Fornax A and the Crab Nebula
@@ -81,4 +85,6 @@ can be used after the portrait progression to connect the artificial activity
 back to radio astronomy.  Fornax A is shown at
 an approximately 72-arcmin low-frequency extent; the Crab uses a 6-arcmin
 illustrative extent.  These image rasters are brightness templates for the
-outreach simulator rather than calibrated simulated SKA observations.
+outreach simulator rather than calibrated simulated SKA observations.  When
+either optional NRAO source is selected, its catalogue credit is also shown in
+the ordinary visitor interface rather than only inside Facilitator controls.
