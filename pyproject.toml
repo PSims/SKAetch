@@ -3,8 +3,12 @@ name = "skaetch"
 version = "0.1.0"
 description = "Interactive SKA radio interferometry outreach simulator"
 authors = [
-    { name = "PSims", email = "6097708+PSims@users.noreply.github.com" }
+    { name = "Peter Sims", email = "6097708+PSims@users.noreply.github.com" }
 ]
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+keywords = ["SKA", "radio astronomy", "interferometry", "outreach"]
 requires-python = ">=3.13"
 dependencies = [
     "numpy",
@@ -13,6 +17,10 @@ dependencies = [
     "matplotlib",
     "pillow",
 ]
+
+[project.urls]
+Repository = "https://github.com/PSims/SKAetch"
+Issues = "https://github.com/PSims/SKAetch/issues"
 
 [project.scripts]
 skaetch = "skaetch:main"
